@@ -1,22 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import AppLoading from "expo-app-loading";
 
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
+import {
+  useFonts,
+  Jost_400Regular,
+  Jost_600SemiBold
+} from '@expo-google-fonts/jost';
+
+import StackNavigator from "./src/routes/Stack";
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
 
-  if (!isLoadingComplete) {
-    return null;
-  } else {
+  const [fontsLoaded] = useFonts({
+    Jost_400Regular,
+    Jost_600SemiBold
+  });
+
+  if (!fontsLoaded)
+    return (<AppLoading />);
+  else
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+      <StackNavigator />
     );
-  }
 }
